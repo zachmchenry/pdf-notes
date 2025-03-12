@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../components/auth/AuthProvider';
 import PDFViewer from '../components/pdf/PDFViewer';
 import RichTextEditor from '../components/notes/RichTextEditor';
-import ResizableLayout from '../components/layout/ResizableLayout';
+import ResizableLayout, { LayoutToggle } from '../components/layout/ResizableLayout';
 import ThemeToggle from '../components/ui/ThemeToggle';
 import { useRouter } from 'next/router';
 
@@ -76,8 +76,8 @@ const App = () => {
             direction={layout} 
             defaultSizes={layout === 'horizontal' ? [60, 40] : [50, 50]}
           >
-            <PDFViewer pdfUrl={pdfUrl} />
-            <RichTextEditor initialContent={noteContent} onSave={handleNoteSave} />
+            <PDFViewer url={pdfUrl} />
+            <RichTextEditor content={noteContent} onChange={handleNoteSave} />
           </ResizableLayout>
         ) : (
           <div className="h-full flex items-center justify-center">

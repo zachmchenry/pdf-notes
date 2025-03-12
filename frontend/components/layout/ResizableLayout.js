@@ -38,5 +38,18 @@ const ResizableLayout = ({
   );
 };
 
-export { LayoutToggle };
+// Define the LayoutToggle component
+const LayoutToggle = ({ layout, onLayoutChange }) => {
+  return (
+    <button 
+      onClick={() => onLayoutChange(layout === 'horizontal' ? 'vertical' : 'horizontal')}
+      className="p-2 rounded bg-gray-200 dark:bg-gray-700"
+      aria-label={layout === 'horizontal' ? "Switch to vertical layout" : "Switch to horizontal layout"}
+    >
+      {layout === 'horizontal' ? '↕️' : '↔️'}
+    </button>
+  );
+};
 
+export default ResizableLayout;
+export { LayoutToggle };
