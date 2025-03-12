@@ -1,0 +1,11 @@
+# For Docker Compose v1.27+ (modern versions)
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_TELEMETRY_DISABLED: 1
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
