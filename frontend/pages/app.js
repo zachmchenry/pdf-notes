@@ -1,26 +1,14 @@
 // pages/app.js
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../components/auth/AuthProvider';
 import PDFViewer from '../components/pdf/PDFViewer';
 import RichTextEditor from '../components/notes/RichTextEditor';
 import ResizableLayout, { LayoutToggle } from '../components/layout/ResizableLayout';
 import ThemeToggle from '../components/ui/ThemeToggle';
-import { useRouter } from 'next/router';
 
 const App = () => {
-  const { currentUser } = useAuth();
-  const router = useRouter();
-  
   const [layout, setLayout] = useState('horizontal');
   const [pdfUrl, setPdfUrl] = useState('');
   const [noteContent, setNoteContent] = useState('');
-  
-  // Redirect if not authenticated
-  useEffect(() => {
-    if (!currentUser) {
-      router.push('/auth/login');
-    }
-  }, [currentUser, router]);
   
   // Handle file upload
   const handleFileUpload = (event) => {
@@ -32,9 +20,10 @@ const App = () => {
   };
   
   // Handle note save
-  const handleNoteSave = async (content) => {
-    // Save to backend
+  const handleNoteSave = (content) => {
     setNoteContent(content);
+    // Save to localStorage instead of backend
+    localStorage.setItem('pdfNotes', content);
   };
   
   // Handle layout change
@@ -43,11 +32,18 @@ const App = () => {
     localStorage.setItem('layout-preference', newLayout);
   };
   
-  // Load layout preference on mount
+  // Load saved content on mount
   useEffect(() => {
+    // Load layout preference
     const savedLayout = localStorage.getItem('layout-preference');
     if (savedLayout) {
       setLayout(savedLayout);
+    }
+    
+    // Load saved notes
+    const savedNotes = localStorage.getItem('pdfNotes');
+    if (savedNotes) {
+      setNoteContent(savedNotes);
     }
   }, []);
   
